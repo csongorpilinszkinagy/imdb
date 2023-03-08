@@ -83,6 +83,7 @@ def review_penalizer(num_ratings: list) -> list:
     Calculates a 0.1 point penalty for every 100.000 deviation from the maximum
     number of ratings
     '''
+    if num_ratings == []: return []
     deviation = max(num_ratings) - np.array(num_ratings)
     deviation_steps = deviation // 100000
     penalty = deviation_steps * 0.1
