@@ -6,7 +6,7 @@ This coding assigment scrapes the top 20 movies from IMDB and adjusts the rating
 ## How to run
 
 ### Codespaces environment
-Start a Github Codespace from the `master` branch.
+Start a Github Codespace from the `main` branch.
 
 ### Install dependencies
 Codespaces comes with most of the dependencies but we need `progressbar` for tracking of the scraping and `hypothesis` for good testing coverage. Install those dependencies listed in `requirements.txt` with this command:
