@@ -78,15 +78,15 @@ def scraper() -> pd.DataFrame:
 
         return df
     
-def review_penalizer(num_ratings:np.array) -> np.array:
+def review_penalizer(num_ratings: list) -> list:
     '''
     Calculates a 0.1 point penalty for every 100.000 deviation from the maximum
     number of ratings
     '''
-    deviation = max(num_ratings) - num_ratings
+    deviation = max(num_ratings) - np.array(num_ratings)
     deviation_steps = deviation // 100000
     penalty = deviation_steps * 0.1
-    return penalty
+    return list(penalty)
     
 if __name__ == '__main__':
     df = scraper()
