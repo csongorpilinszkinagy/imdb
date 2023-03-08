@@ -59,7 +59,7 @@ def scraper() -> pd.DataFrame:
                     if category.text == 'Oscar':
                         oscar = award.parent.parent
 
-                # Append the number of oscars to the list
+                # Append the number of oscars rows to the list
                 if oscar:
                     num_oscars.append(len(oscar.select('tr')))
                 else:
@@ -118,6 +118,6 @@ if __name__ == '__main__':
     oscar_boost = oscar_calculator(df['num_oscar'])
     # Decrese rating by penalty and increase by oscar boost
     df['adjusted_ranking'] = np.array(df['rating']) - np.array(review_penalty) + np.array(oscar_boost)
-
+    # Output results to csv file
     df.to_csv('imdb_top_20.csv', index=False)
     
