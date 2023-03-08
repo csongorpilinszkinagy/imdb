@@ -15,9 +15,14 @@ def scraper() -> pd.DataFrame:
         assert len(ratings) == 250
         assert all(type(rating) == float for rating in ratings)
 
+        num_ratings = [int(elem.get('data-value')) for elem in soup.select('td.posterColumn span[name=nv]')]
+        assert len(num_ratings) == 250
+        assert all(type(num) == int for num in num_ratings)
+
         df = pd.DataFrame()
         df['title'] = titles[:20]
         df['rating'] = ratings[:20]
+        df['num_rating'] = num_ratings[:20]
 
         return df
 
