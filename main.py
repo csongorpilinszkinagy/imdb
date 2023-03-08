@@ -109,5 +109,14 @@ def oscar_calculator(num_oscars: list) -> list:
     return score_boosts
     
 if __name__ == '__main__':
+    # Scrape top 20 movie data
     df = scraper()
+
+    # Create adjusted score column in dataframe
+    review_penalty = review_penalizer(df['num_rating'])
+    oscar_boost = oscar_calculator(df['num_oscar'])
+    # Decrese rating by penalty and increase by oscar boost
+    df['adjusted_ranking'] = np.array(df['rating']) - np.array(review_penalty) + np.array(oscar_boost)
+
     print(df)
+    
