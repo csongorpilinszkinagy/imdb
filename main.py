@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from progressbar import progressbar
 import pandas as pd
+import numpy as np
 
 def scraper() -> pd.DataFrame:
     '''
@@ -76,7 +77,13 @@ def scraper() -> pd.DataFrame:
         df['num_oscar'] = num_oscars
 
         return df
-
+    
+def review_penalizer(num_ratings:np.array) -> np.array:
+    num_ratings = max(num_ratings) - num_ratings
+    num_ratings //= 100000
+    num_ratings = num_ratings * 0.1
+    return num_ratings
+    
 if __name__ == '__main__':
     df = scraper()
     print(df)
