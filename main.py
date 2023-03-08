@@ -87,6 +87,26 @@ def review_penalizer(num_ratings: list) -> list:
     deviation_steps = deviation // 100000
     penalty = deviation_steps * 0.1
     return list(penalty)
+
+def oscar_calculator(num_oscars: list) -> list:
+    '''
+    Calculates the score boost for the number of oscars given to the movie
+    '''
+    score_boosts = []
+    for num in num_oscars:
+        if num == 0:
+            boost = 0.
+        elif num < 3:
+            boost = 0.3
+        elif num < 6:
+            boost = 0.5
+        elif num < 11:
+            boost = 1.
+        else:
+            boost = 1.5
+        score_boosts.append(boost)
+
+    return score_boosts
     
 if __name__ == '__main__':
     df = scraper()
