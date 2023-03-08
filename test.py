@@ -1,9 +1,10 @@
 import unittest
-from main import scraper
+from main import scraper, review_penalizer
 import pandas as pd
 import numpy as np
+from hypothesis import given, settings, strategies as st
 
-class Test(unittest.TestCase):
+class TestScraper(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -26,6 +27,11 @@ class Test(unittest.TestCase):
     
     def test_scraper_num_oscars(self):
         self.assertTrue(all(0 <= num <= 100 for num in self.df['num_oscar']))
+
+class TestReviewPenalizer(unittest.TestCase):
+    @given(st.lists(st.integers()))
+    def test_length(self, num_ratings):
+        self.assertEqual(len(num_ratings), len(review_penalizer(num_ratings)))
 
 if __name__ == '__main__':
     unittest.main()
