@@ -35,17 +35,17 @@ class TestScraper(unittest.TestCase):
         self.assertTrue(all(0 <= num <= 100 for num in self.df['num_oscar']))
 
 class TestReviewPenalizer(unittest.TestCase):
-    @given(st.lists(st.integers(min_value=0, max_value=1E7)))
+    @given(st.lists(st.integers(min_value=0, max_value=MAX_NUM_RATING)))
     def test_length(self, num_ratings):
         penalties = review_penalizer(num_ratings)
         self.assertEqual(len(num_ratings), len(penalties))
 
-    @given(st.lists(st.integers(min_value=0, max_value=1E7)))
+    @given(st.lists(st.integers(min_value=0, max_value=MAX_NUM_RATING)))
     def test_values(self, num_ratings):
         penalties = review_penalizer(num_ratings)
-        self.assertTrue(all(0 <= penalty <= 100 for penalty in penalties))
+        self.assertTrue(all(0 <= penalty <= MAX_PENALTY for penalty in penalties))
 
-    @given(st.lists(st.integers(min_value=0, max_value=1E7)))
+    @given(st.lists(st.integers(min_value=0, max_value=MAX_NUM_RATING)))
     def test_got_zero(self, num_ratings):
         penalties = review_penalizer(num_ratings)
         self.assertTrue(0 in penalties if penalties else True)
