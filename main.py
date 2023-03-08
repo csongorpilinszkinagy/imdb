@@ -4,17 +4,22 @@ import pandas as pd
 
 def scraper() -> pd.DataFrame:
     url = 'https://www.imdb.com/chart/top/'
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
+    with requests.get(url) as page:
+        soup = BeautifulSoup(page.text, 'html.parser')
 
-    titles = [elem.text for elem in soup.select('td.titleColumn a')]
-    assert len(titles) == 250
-    assert all(type(title) == str for title in titles)
+        titles = [elem.text for elem in soup.select('td.titleColumn a')]
+        assert len(titles) == 250
+        assert all(type(title) == str for title in titles)
 
-    data = titles[:20]
-    columns = ['title']
-    df = pd.DataFrame(data, columns=columns)
-    return df
+        ratings = [float(elem.get('data-value')) for elem in soup.select('td.posterColumn span[name=ir]')]
+        assert len(ratings) == 250
+        assert all(type(rating) == float for rating in ratings)
+
+        df = pd.DataFrame()
+        df['title'] = titles[:20]
+        df['rating'] = ratings[:20]
+
+        return df
 
 if __name__ == '__main__':
     df = scraper()
