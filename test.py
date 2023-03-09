@@ -38,7 +38,7 @@ class TestScraper(unittest.TestCase):
     
     # Scraper should return number of oscars between 0 and arbitrary big oscar number
     def test_scraper_num_oscars(self):
-        self.assertTrue(all(0 <= num <= MAX_OSCAR for num in self.df['num_oscar']))
+        self.assertTrue(all(0 <= num <= MAX_NUM_OSCAR for num in self.df['num_oscar']))
 
 # Hypothesis generates lists with integers and tests on those values
 class TestReviewPenalizer(unittest.TestCase):
@@ -59,6 +59,12 @@ class TestReviewPenalizer(unittest.TestCase):
     def test_got_zero(self, num_ratings):
         penalties = review_penalizer(num_ratings)
         self.assertTrue(0 in penalties if penalties else True)
+    
+    def test_explicit_values(self):
+        num_ratings = [2432487, 2432486, 1678626, 521344, 0]
+        expected_results = [0., 0., 0.7, 1.9, 2.4]
+        penalties = review_penalizer(num_ratings)
+        np.testing.assert_almost_equal(penalties, expected_results, decimal=4)
         
 # Hypothesis generates lists with integers and tests on those values
 class TestOscarCalculator(unittest.TestCase):
@@ -73,6 +79,12 @@ class TestOscarCalculator(unittest.TestCase):
     def test_values(self, num_oscars):
         boosts = oscar_calculator(num_oscars)
         self.assertTrue(all(0 <= boost <= MAX_BOOST for boost in boosts))
+
+    def test_explicit_values(self):
+        num_oscars = range(12)
+        expected_results = [0., 0.3, 0.3, 0.5, 0.5, 0.5, 1., 1., 1., 1., 1., 1.5]
+        boosts = oscar_calculator(num_oscars)
+        np.testing.assert_almost_equal(boosts, expected_results, decimal=4)
 
 if __name__ == '__main__':
     unittest.main()
